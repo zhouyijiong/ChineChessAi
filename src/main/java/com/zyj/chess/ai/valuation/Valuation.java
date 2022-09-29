@@ -1,4 +1,4 @@
-package com.zyj.chess.game.valuation;
+package com.zyj.chess.ai.valuation;
 
 import com.zyj.chess.game.chessman.Chessman;
 

@@ -16,15 +16,7 @@ public final class BCar extends Chessman {
 
     @Override
     public int calcDangerScore(Chessman[] board, int... params) {
-        List<Integer> point = Params.BLACK_CAR_NAVIGATE.get(0);
-        int score = 0;
-        for (int i = 0, len = point.size(); i < len; ++i) {
-            if (board[i] == null || board[i].getId() < 8) continue;
-            int y = i / 9;
-            int x = i % 9;
-            ++score;
-        }
-        return score;
+        return 0;
     }
 
     @Override

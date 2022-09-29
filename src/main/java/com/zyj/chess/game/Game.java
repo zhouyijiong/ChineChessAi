@@ -2,34 +2,46 @@ package com.zyj.chess.game;
 
 import com.zyj.chess.game.board.Board;
 import com.zyj.chess.game.chessman.Chessman;
-import com.zyj.chess.game.chessman.type.black.BCannon;
-import com.zyj.chess.game.chessman.type.black.BCar;
-import com.zyj.chess.game.chessman.type.black.BElephant;
-import com.zyj.chess.game.chessman.type.black.BHorse;
-import com.zyj.chess.game.chessman.type.black.BKing;
-import com.zyj.chess.game.chessman.type.black.BSoldier;
-import com.zyj.chess.game.chessman.type.black.BSquire;
-import com.zyj.chess.game.chessman.type.red.RCannon;
-import com.zyj.chess.game.chessman.type.red.RCar;
-import com.zyj.chess.game.chessman.type.red.RElephant;
-import com.zyj.chess.game.chessman.type.red.RHorse;
-import com.zyj.chess.game.chessman.type.red.RKing;
-import com.zyj.chess.game.chessman.type.red.RSoldier;
-import com.zyj.chess.game.chessman.type.red.RSquire;
+import com.zyj.chess.game.chessman.type.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public final class Game {
-    static final Board BOARD = new Board();
+    private boolean current = true;
 
-    public static final Chessman[] CHESSMEN = {null, BCar.initLeft(), BHorse.initLeft(), BElephant.initLeft(),
-            BSquire.initLeft(), BKing.init(), BSquire.initRight(), BElephant.initRight(), BHorse.initRight(),
-            BCar.initRight(), BCannon.initLeft(), BCannon.initRight(), BSoldier.init1(), BSoldier.init2(),
-            BSoldier.init3(), BSoldier.init4(), BSoldier.init5(), null, null, null, RCar.initLeft(),
-            RHorse.initLeft(), RElephant.initLeft(), RSquire.initLeft(), RKing.init(), RSquire.initRight(),
-            RElephant.initRight(), RHorse.initRight(), RCar.initRight(), RCannon.initLeft(), RCannon.initRight(),
-            RSoldier.init1(), RSoldier.init2(), RSoldier.init3(), RSoldier.init4(), RSoldier.init5()
+    public static final Board BOARD = new Board();
+
+    static final Chessman[] red = {
+            new RCar(10, 1), new RHorse(10, 2), new RElephant(10, 3), new RSquire(10, 4),
+            new RKing(10, 5), new RSquire(10, 6), new RElephant(10, 7), new RHorse(10, 8),
+            new RCar(10, 9), new RCannon(8, 2), new RCannon(8, 8), new RSoldier(7, 1),
+            new RSoldier(7, 3), new RSoldier(7, 5), new RSoldier(7, 7), new RSoldier(7, 9)
     };
 
-    public static void main(String[] args) {
+    static final Chessman[] black = {
+            new BCar(1, 1), new BHorse(1, 2), new BElephant(1, 3), new BSquire(1, 4),
+            new BKing(1, 5), new BSquire(1, 6), new BElephant(1, 7), new BHorse(1, 8),
+            new BCar(1, 9), new BCannon(3, 2), new BCannon(3, 8), new BSoldier(4, 1),
+            new BSoldier(4, 3), new BSoldier(4, 5), new BSoldier(4, 7), new BSoldier(4, 9)
+    };
 
+    public Chessman[] schedule() {
+        return current ? red : black;
+    }
+
+    public void navigate(int x, int y, Chessman chessman) {
+        BOARD.move(y, x, chessman);
+        current = !current;
+    }
+
+    public static void main(String[] args) {
+        Game game = new Game();
+        BOARD.view();
+        List<Integer> location = new ArrayList<>();
+        for (Chessman item : black) item.navigate(location);
+        System.out.println(location.size());
+        System.out.println(Arrays.toString(location.toArray()));
     }
 }

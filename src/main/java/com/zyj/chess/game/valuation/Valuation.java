@@ -1,10 +1,6 @@
 package com.zyj.chess.game.valuation;
 
 import com.zyj.chess.game.chessman.Chessman;
-import com.zyj.chess.game.chessman.color.Color;
-import com.zyj.chess.game.chessman.type.red.RCar;
-import com.zyj.chess.game.chessman.type.red.RSoldier;
-import com.zyj.chess.game.params.Params;
 
 public final class Valuation {
     public final Chessman[] board;
@@ -40,13 +36,13 @@ public final class Valuation {
     }
 
     public int calcBlackDangerScore() {
-        int score = 0;
-        for (Chessman chessmen : chessmen[Color.RED.val]) {
-            if (chessmen == null) continue;
-            chessmen.calcDangerScore(null, 0);
-            score++;
-        }
-        return score;
+//        int score = 0;
+//        for (Chessman chessmen : chessmen[Color.RED.val]) {
+//            if (chessmen == null) continue;
+//            chessmen.calcDangerScore(null, 0);
+//            score++;
+//        }
+        return 0;
     }
 
     public int calcChessmenScore(int color) {

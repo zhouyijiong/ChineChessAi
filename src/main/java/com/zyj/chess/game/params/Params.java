@@ -59,15 +59,6 @@ public final class Params {
         }
     }
 
-    private static boolean calcCareNavigateCore(List<Integer> list, int x, int y, boolean key) {
-        int id;
-        if ((id = Game.BOARD.get(y, x)) == 0) {
-            list.add(y * 10 + x);
-            return false;
-        } else if (key ? id > 7 : id < 8) list.add(y * 10 + x);
-        return true;
-    }
-
     public static void calcCareNavigate(List<Integer> list, int id, int x, int y) {
         boolean key = id < 8;
         for (id = x + 1; id < 10; ++id) if (calcCareNavigateCore(list, id, y, key)) break;
@@ -186,6 +177,43 @@ public final class Params {
             map.put(i, point);
         }
         return map;
+    }
+
+    public static void calcCannonNavigate(List<Integer> list, int id, int x, int y) {
+        boolean key = id < 8;
+        for (id = x + 1; id < 10; ++id) if (calcCannonMoveCore(list, id, y))
+            for (++id; id < 10; ++id) if (calcAttackCore(list, id, y, key)) break;
+        for (id = x - 1; id > 0; --id) if (calcCannonMoveCore(list, id, y))
+            for (--id; id > 0; --id) if (calcAttackCore(list, id, y, key)) break;
+        for (id = y + 1; id < 11; ++id) if (calcCannonMoveCore(list, x, id))
+            for (++id; id < 11; ++id) if (calcAttackCore(list, x, id, key)) break;
+        for (id = y - 1; id > 0; --id) if (calcCannonMoveCore(list, x, id))
+            for (--id; id > 0; --id) if (calcAttackCore(list, x, id, key)) break;
+    }
+
+    private static boolean calcCareNavigateCore(List<Integer> list, int x, int y, boolean key) {
+        int id;
+        if ((id = Game.BOARD.get(y, x)) == 0) {
+            list.add(y * 10 + x);
+            return false;
+        } else if (key ? id > 7 : id < 8) list.add(y * 10 + x);
+        return true;
+    }
+
+    public static boolean calcCannonMoveCore(List<Integer> list, int x, int y) {
+        if (Game.BOARD.get(y, x) == 0) {
+            list.add(y * 10 + x);
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean calcAttackCore(List<Integer> list, int x, int y, boolean key) {
+        int id;
+        if ((id = Game.BOARD.get(y, x)) == 0) {
+            return false;
+        } else if (key ? id > 7 : id < 8) list.add(y * 10 + x);
+        return true;
     }
 
     private static List<Integer> mirrorList(List<Integer> list) {

@@ -21,6 +21,7 @@ public final class BSoldier extends Chessman {
 
     @Override
     public void navigate(List<Integer> list) {
+        if(true)return;
         int t = y + 1;
         if (t < 11 && Game.BOARD.get(t, x) == 0) list.add(t * 10 + x);
         if (y > 5) {

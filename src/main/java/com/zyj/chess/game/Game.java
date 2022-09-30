@@ -4,9 +4,7 @@ import com.zyj.chess.game.board.Board;
 import com.zyj.chess.game.chessman.Chessman;
 import com.zyj.chess.game.chessman.type.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public final class Game {
     private boolean current = true;

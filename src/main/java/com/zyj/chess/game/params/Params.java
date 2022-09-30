@@ -1,9 +1,8 @@
 package com.zyj.chess.game.params;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.zyj.chess.game.Game;
+
+import java.util.*;
 
 public final class Params {
     public static final String[] CHESSMAN_NAME = {"空位",
@@ -11,13 +10,11 @@ public final class Params {
             "红车", "红马", "红象", "红士", "红帥", "红炮", "红兵"
     };
 
-    private static final int[] BLACK_KING_LOCATION = {14, 15, 16, 24, 25, 26, 34, 35, 36};
+    private static final int[] BLACK_ELEPHANT_LOCATION = {13, 17, 31, 35, 39, 53, 57};
 
     private static final int[] BLACK_SQUIRE_LOCATION = {14, 16, 25, 34, 36};
 
-    private static final int[] BLACK_SOLDIER_LOCATION = {54, 56, 58, 60, 62};
-
-    private static final int[] BLACK_ELEPHANT_LOCATION = {13, 17, 31, 35, 39, 53, 57};
+    private static final int[] BLACK_KING_LOCATION = {14, 15, 16, 24, 25, 26, 34, 35, 36};
 
     private static final int[][] BOARD_POINT = {
             {11, 12, 13, 14, 15, 16, 17, 18, 19},
@@ -34,28 +31,52 @@ public final class Params {
 
     public static final Map<Integer, Map<List<Integer>, List<Integer>>> HORSE_NAVIGATE;
     public static final Map<Integer, Map<List<Integer>, List<Integer>>> BLACK_ELEPHANT_NAVIGATE;
+    public static final Map<Integer, Map<List<Integer>, List<Integer>>> RED_ELEPHANT_NAVIGATE;
     public static final Map<Integer, List<Integer>> BLACK_SQUIRE_NAVIGATE;
     public static final Map<Integer, List<Integer>> BLACK_KING_NAVIGATE;
-    public static final Map<Integer, List<Integer>> BLACK_SOLDIER_NAVIGATE;
-    //public static final Map<Integer, List<Integer>> RED_ELEPHANT_NAVIGATE;
     public static final Map<Integer, List<Integer>> RED_SQUIRE_NAVIGATE;
     public static final Map<Integer, List<Integer>> RED_KING_NAVIGATE;
-    public static final Map<Integer, List<Integer>> RED_SOLDIER_NAVIGATE;
 
     static {
         HORSE_NAVIGATE = calcHorseNavigate();
         BLACK_ELEPHANT_NAVIGATE = calcElephantNavigate();
         BLACK_SQUIRE_NAVIGATE = calcSquireNavigate();
         BLACK_KING_NAVIGATE = calcKingNavigate();
-        BLACK_SOLDIER_NAVIGATE = calcSoldierNavigate();
-
-        //RED_ELEPHANT_NAVIGATE = mirrorNavigate(BLACK_ELEPHANT_NAVIGATE);
+        RED_ELEPHANT_NAVIGATE = mirrorElephantNavigate();
         RED_SQUIRE_NAVIGATE = mirrorNavigate(BLACK_SQUIRE_NAVIGATE);
         RED_KING_NAVIGATE = mirrorNavigate(BLACK_KING_NAVIGATE);
-        RED_SOLDIER_NAVIGATE = mirrorNavigate(BLACK_SOLDIER_NAVIGATE);
     }
 
-    static Map<Integer, Map<List<Integer>, List<Integer>>> calcHorseNavigate() {
+    public static void getNavigate(Map<Integer, Map<List<Integer>, List<Integer>>> maps, List<Integer> list, int x, int y) {
+        Map<List<Integer>, List<Integer>> map = maps.get(y * 10 + x);
+        for (Map.Entry<List<Integer>, List<Integer>> item : map.entrySet()) {
+            List<Integer> point = item.getKey();
+            List<Integer> baffle = item.getValue();
+            for (int i = 0, len = baffle.size(); i < len; ++i) {
+                int xy = baffle.get(i);
+                if (Game.BOARD.get(xy / 10, xy % 10) == 0) list.add(point.get(i));
+            }
+        }
+    }
+
+    private static boolean calcCareNavigateCore(List<Integer> list, int x, int y, boolean key) {
+        int id;
+        if ((id = Game.BOARD.get(y, x)) == 0) {
+            list.add(y * 10 + x);
+            return false;
+        } else if (key ? id > 7 : id < 8) list.add(y * 10 + x);
+        return true;
+    }
+
+    public static void calcCareNavigate(List<Integer> list, int id, int x, int y) {
+        boolean key = id < 8;
+        for (id = x + 1; id < 10; ++id) if (calcCareNavigateCore(list, id, y, key)) break;
+        for (id = x - 1; id > 0; --id) if (calcCareNavigateCore(list, id, y, key)) break;
+        for (id = y + 1; id < 11; ++id) if (calcCareNavigateCore(list, x, id, key)) break;
+        for (id = y - 1; id > 0; --id) if (calcCareNavigateCore(list, x, id, key)) break;
+    }
+
+    private static Map<Integer, Map<List<Integer>, List<Integer>>> calcHorseNavigate() {
         Map<Integer, Map<List<Integer>, List<Integer>>> map = new HashMap<>();
         for (int[] arrays : BOARD_POINT) {
             for (int i : arrays) {
@@ -75,7 +96,7 @@ public final class Params {
                 if (x + 2 < 10) {
                     baffle.add(t = y * 10 + x + 1);
                     point.add((y + 1) * 10 + x + 2);
-                    if ((t = y - 1) > 0) {
+                    if ((y - 1) > 0) {
                         point.add((y - 1) * 10 + x + 2);
                         baffle.add(t);
                     }
@@ -108,7 +129,7 @@ public final class Params {
         return map;
     }
 
-    static Map<Integer, Map<List<Integer>, List<Integer>>> calcElephantNavigate() {
+    private static Map<Integer, Map<List<Integer>, List<Integer>>> calcElephantNavigate() {
         Map<Integer, Map<List<Integer>, List<Integer>>> map = new HashMap<>();
         for (int i : BLACK_ELEPHANT_LOCATION) {
             int y = i / 10, x = i % 10, t;
@@ -139,7 +160,7 @@ public final class Params {
         return map;
     }
 
-    static Map<Integer, List<Integer>> calcSquireNavigate() {
+    private static Map<Integer, List<Integer>> calcSquireNavigate() {
         Map<Integer, List<Integer>> map = new HashMap<>();
         for (int i : BLACK_SQUIRE_LOCATION) {
             int y = i / 10, x = i % 10, t;
@@ -153,7 +174,7 @@ public final class Params {
         return map;
     }
 
-    static Map<Integer, List<Integer>> calcKingNavigate() {
+    private static Map<Integer, List<Integer>> calcKingNavigate() {
         Map<Integer, List<Integer>> map = new HashMap<>();
         for (int i : BLACK_KING_LOCATION) {
             int y = i / 10, x = i % 10, t;
@@ -167,39 +188,31 @@ public final class Params {
         return map;
     }
 
-    static Map<Integer, List<Integer>> calcSoldierNavigate() {
-        Map<Integer, List<Integer>> map = new HashMap<>();
-        for (int i = 62; i > -1; i--) {
-            int y = i / 9;
-            int x = i % 9;
-            List<Integer> point = new ArrayList<>();
-            if (y < 5) {
-                if (x - 1 > -1) point.add(y * 9 + (x - 1) % 9);
-                if (x + 1 < 9) point.add(y * 9 + (x + 1) % 9);
-                if (y - 1 > -1) point.add((y - 1) * 9 + x % 9);
-            } else {
-                for (int item : BLACK_SOLDIER_LOCATION) {
-                    int itemX = item % 9;
-                    if (x != itemX) continue;
-                    point.add((y - 1) * 9 + x % 9);
-                }
-            }
-            if (point.size() > 0) map.put(i, point);
-        }
-        return map;
+    private static List<Integer> mirrorList(List<Integer> list) {
+        List<Integer> result = new ArrayList<>();
+        list.forEach((i) -> result.add((11 - i / 10) * 10 + i % 10));
+        return result;
     }
 
-    static Map<Integer, List<Integer>> mirrorNavigate(Map<Integer, List<Integer>> map) {
+    private static Map<Integer, List<Integer>> mirrorNavigate(Map<Integer, List<Integer>> map) {
         Map<Integer, List<Integer>> mirrorMap = new HashMap<>();
         for (Map.Entry<Integer, List<Integer>> item : map.entrySet()) {
-            List<Integer> point = new ArrayList<>();
-            item.getValue().forEach((i) -> point.add((11 - i / 10) * 10 + i % 10));
-            mirrorMap.put((11 - item.getKey() / 10) * 10 + item.getKey() % 10, point);
+            mirrorMap.put((11 - item.getKey() / 10) * 10 + item.getKey() % 10, mirrorList(item.getValue()));
         }
         return mirrorMap;
     }
 
-    static Map<Integer, Map<List<Integer>, List<Integer>>> mirrorElephantNavigate() {
-        return null;
+    private static Map<Integer, Map<List<Integer>, List<Integer>>> mirrorElephantNavigate() {
+        Map<Integer, Map<List<Integer>, List<Integer>>> mirrorMap = new HashMap<>();
+        for (Map.Entry<Integer, Map<List<Integer>, List<Integer>>> item : BLACK_ELEPHANT_NAVIGATE.entrySet()) {
+            for (Map.Entry<List<Integer>, List<Integer>> p_b : item.getValue().entrySet()) {
+                mirrorMap.put((11 - item.getKey() / 10) * 10 + item.getKey() % 10, new HashMap<List<Integer>, List<Integer>>() {
+                    {
+                        put(mirrorList(p_b.getKey()), mirrorList(p_b.getValue()));
+                    }
+                });
+            }
+        }
+        return mirrorMap;
     }
 }

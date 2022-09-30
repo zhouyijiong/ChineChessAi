@@ -29,7 +29,7 @@ public final class BCannon extends Chessman {
                 for (++i; i < 10; ++i) {
                     if ((id = Game.BOARD.get(this.y, i)) == 0) {
                         continue;
-                    } else if (id > 8) list.add(this.y * 10 + i);
+                    } else if (id > 7) list.add(this.y * 10 + i);
                     break;
                 }
             }
@@ -43,7 +43,7 @@ public final class BCannon extends Chessman {
                 for (--i; i > 0; --i) {
                     if ((id = Game.BOARD.get(this.y, i)) == 0) {
                         continue;
-                    } else if (id > 8) list.add(this.y * 10 + i);
+                    } else if (id > 7) list.add(this.y * 10 + i);
                     break;
                 }
             }
@@ -57,7 +57,7 @@ public final class BCannon extends Chessman {
                 for (++i; i < 11; ++i) {
                     if ((id = Game.BOARD.get(i, this.x)) == 0) {
                         continue;
-                    } else if (id > 8) list.add(i * 10 + this.x);
+                    } else if (id > 7) list.add(i * 10 + this.x);
                     break;
                 }
             }
@@ -71,7 +71,7 @@ public final class BCannon extends Chessman {
                 for (--i; i > 0; --i) {
                     if ((id = Game.BOARD.get(i, this.x)) == 0) {
                         continue;
-                    } else if (id > 8) list.add(i * 10 + this.x);
+                    } else if (id > 7) list.add(i * 10 + this.x);
                     break;
                 }
             }

@@ -1,5 +1,6 @@
 package com.zyj.chess.game.chessman.type;
 
+import com.zyj.chess.game.Game;
 import com.zyj.chess.game.chessman.Chessman;
 
 import java.util.List;
@@ -20,5 +21,11 @@ public final class RSoldier extends Chessman {
 
     @Override
     public void navigate(List<Integer> list) {
+        int t = y - 1;
+        if (t > 0 && Game.BOARD.get(t, x) == 0) list.add(t * 10 + x);
+        if (y < 6) {
+            if ((t = x + 1) < 10 && Game.BOARD.get(y, t) < 8) list.add(y * 10 + t);
+            if ((t = x - 1) > 0 && Game.BOARD.get(y, t) < 8) list.add(y * 10 + t);
+        }
     }
 }

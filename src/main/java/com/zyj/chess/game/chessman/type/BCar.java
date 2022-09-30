@@ -20,7 +20,6 @@ public final class BCar extends Chessman {
 
     @Override
     public void navigate(List<Integer> list) {
-        if(true)return;
         Params.calcCareNavigate(list, id, x, y);
     }
 }

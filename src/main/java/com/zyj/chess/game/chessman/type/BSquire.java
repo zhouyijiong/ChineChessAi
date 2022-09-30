@@ -20,7 +20,6 @@ public final class BSquire extends Chessman {
 
     @Override
     public void navigate(List<Integer> list) {
-        if(true)return;
         list.addAll(Params.BLACK_SQUIRE_NAVIGATE.get(y * 10 + x));
     }
 }

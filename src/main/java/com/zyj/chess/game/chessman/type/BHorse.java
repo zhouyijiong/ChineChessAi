@@ -20,7 +20,6 @@ public final class BHorse extends Chessman {
 
     @Override
     public void navigate(List<Integer> list) {
-        if(true)return;
         Params.getNavigate(Params.HORSE_NAVIGATE, list, x, y);
     }
 }

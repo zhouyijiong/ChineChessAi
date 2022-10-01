@@ -2,6 +2,7 @@ package com.zyj.chess.game.chessman.type;
 
 import com.zyj.chess.game.Game;
 import com.zyj.chess.game.chessman.Chessman;
+import com.zyj.chess.game.team.Team;
 
 import java.util.List;
 

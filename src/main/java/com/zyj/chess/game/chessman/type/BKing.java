@@ -1,7 +1,9 @@
 package com.zyj.chess.game.chessman.type;
 
+import com.zyj.chess.game.Game;
 import com.zyj.chess.game.chessman.Chessman;
 import com.zyj.chess.game.params.Params;
+import com.zyj.chess.game.team.Team;
 
 import java.util.List;
 
@@ -23,6 +25,7 @@ public final class BKing extends Chessman {
         for (Integer i : Params.BLACK_KING_NAVIGATE.get(y * 10 + x)) {
             int y = i / 10;
             int x = i % 10;
+            Game.BOARD.get(y, x);
             //计算位置是否安全
         }
     }

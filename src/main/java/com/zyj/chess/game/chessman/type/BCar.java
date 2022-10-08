@@ -1,6 +1,8 @@
 package com.zyj.chess.game.chessman.type;
 
 import com.zyj.chess.game.chessman.Chessman;
+import com.zyj.chess.game.params.Navigate;
+import com.zyj.chess.game.params.Navigates;
 import com.zyj.chess.game.params.Params;
 
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.List;
  */
 public final class BCar extends Chessman {
     public BCar(int y, int x) {
-        super(1, x, y, 23);
+        super(1, x, y, 23, Navigates.NO_LIMIT);
     }
 
     @Override
@@ -20,6 +22,6 @@ public final class BCar extends Chessman {
 
     @Override
     public void navigate(List<Integer> list) {
-        Params.calcCareNavigate(list, id, x, y);
+        Params.calcCareNavigate(navigate, id, x, y);
     }
 }

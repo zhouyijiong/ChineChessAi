@@ -2,6 +2,7 @@ package com.zyj.chess.game.chessman.type;
 
 import com.zyj.chess.game.Game;
 import com.zyj.chess.game.chessman.Chessman;
+import com.zyj.chess.game.params.Navigates;
 import com.zyj.chess.game.team.Team;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public final class RSoldier extends Chessman {
     public RSoldier(int y, int x) {
-        super(17, x, y, 3);
+        super(17, x, y, 3, Navigates.NO_LIMIT);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.zyj.chess.game.chessman.type;
 
 import com.zyj.chess.game.chessman.Chessman;
+import com.zyj.chess.game.params.Navigates;
 import com.zyj.chess.game.params.Params;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public final class BHorse extends Chessman {
     public BHorse(int y, int x) {
-        super(2, x, y, 11);
+        super(2, x, y, 11, Navigates.LIMIT);
     }
 
     @Override

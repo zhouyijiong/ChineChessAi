@@ -1,6 +1,7 @@
 package com.zyj.chess.game.chessman.type;
 
 import com.zyj.chess.game.chessman.Chessman;
+import com.zyj.chess.game.params.Navigates;
 import com.zyj.chess.game.params.Params;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public final class BSquire extends Chessman {
     public BSquire(int y, int x) {
-        super(4, x, y, 6);
+        super(4, x, y, 6, Navigates.NO_LIMIT);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.zyj.chess.game.chessman.type;
 
 import com.zyj.chess.game.chessman.Chessman;
+import com.zyj.chess.game.params.Navigates;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  */
 public final class RKing extends Chessman {
     public RKing(int y, int x) {
-        super(15, x, y, 100);
+        super(15, x, y, 100, Navigates.NO_LIMIT);
     }
 
     @Override

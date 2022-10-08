@@ -44,12 +44,12 @@ public final class Params {
         }
     }
 
-    public static void calcCareNavigate(List<Integer> list, int id, int x, int y) {
+    public static void calcCareNavigate(Navigate navigate, int id, int x, int y) {
         boolean key = id < 8;
-        for (id = x + 1; id < 10; ++id) if (calcCareNavigateCore(list, id, y, key)) break;
-        for (id = x - 1; id > 0; --id) if (calcCareNavigateCore(list, id, y, key)) break;
-        for (id = y + 1; id < 11; ++id) if (calcCareNavigateCore(list, x, id, key)) break;
-        for (id = y - 1; id > 0; --id) if (calcCareNavigateCore(list, x, id, key)) break;
+        for (id = x + 1; id < 10; ++id) if (calcCareNavigateCore(navigate, id, y, key)) break;
+        for (id = x - 1; id > 0; --id) if (calcCareNavigateCore(navigate, id, y, key)) break;
+        for (id = y + 1; id < 11; ++id) if (calcCareNavigateCore(navigate, x, id, key)) break;
+        for (id = y - 1; id > 0; --id) if (calcCareNavigateCore(navigate, x, id, key)) break;
     }
 
     private static Map<Integer, KeyVal<List<Integer>, List<Integer>>> calcHorseNavigate() {
@@ -168,12 +168,12 @@ public final class Params {
             if (calcCannonMoveCore(list, x, id)) for (--id; id > 0; --id) if (calcAttackCore(list, x, id, key)) break;
     }
 
-    private static boolean calcCareNavigateCore(List<Integer> list, int x, int y, boolean key) {
+    private static boolean calcCareNavigateCore(Navigate navigate, int x, int y, boolean key) {
         int id;
         if ((id = Game.BOARD.get(y, x)) == 0) {
-            list.add(y * 10 + x);
+            navigate.vacancy.add(y * 10 + x);
             return false;
-        } else if (key ? id > 7 : id < 8) list.add(y * 10 + x);
+        } else if (key ? id > 7 : id < 8) navigate.eat.add(y * 10 + x);
         return true;
     }
 

@@ -1,7 +1,6 @@
 package com.zyj.chess.game.chessman.type;
 
 import com.zyj.chess.game.chessman.Chessman;
-import com.zyj.chess.game.params.Navigate;
 import com.zyj.chess.game.params.Navigates;
 import com.zyj.chess.game.params.Params;
 

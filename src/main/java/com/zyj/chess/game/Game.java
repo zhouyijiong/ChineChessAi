@@ -15,7 +15,7 @@ public final class Game {
 
     static final Team BLACK = new BlackTeam();
 
-    public static final Board BOARD = Board.init();
+    public static final Board BOARD = new Board();
 
     public Chessman[] schedule() {
         return current ? RED.getChess() : BLACK.getChess();

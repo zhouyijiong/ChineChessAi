@@ -1,6 +1,5 @@
 package com.zyj.chess.game.team;
 
-import com.zyj.chess.game.board.Board;
 import com.zyj.chess.game.chessman.Chessman;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

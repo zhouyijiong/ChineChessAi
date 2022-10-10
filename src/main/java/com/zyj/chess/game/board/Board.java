@@ -3,41 +3,27 @@ package com.zyj.chess.game.board;
 import com.zyj.chess.ai.tool.Codec;
 import com.zyj.chess.game.chessman.Chessman;
 import com.zyj.chess.game.params.Params;
+import com.zyj.chess.game.tool.BitList;
 
 import java.util.Arrays;
 
 public final class Board {
-    public final long[] board;
-
-    public final long[] divisor;
-
-    public static Board init() {
-        return new Board(new long[]{0, 8010203040504030201L,
-                8000000000000000000L, 8000600000000000600L, 8070007000700070007L,
-                8000000000000000000L, 8000000000000000000L, 8170017001700170017L,
-                8001600000000001600L, 8000000000000000000L, 8111213141514131211L
-        }, new long[]{1000000000000000000L,
-                10000000000000000L, 100000000000000L, 1000000000000L,
-                10000000000L, 100000000L, 1000000L, 10000L, 100L, 1L
-        });
-    }
-
-    public Board(long[] board, long[] divisor) {
-        this.board = board;
-        this.divisor = divisor;
-    }
+    BitList board = new BitList(new long[]{8000000000000000000L, 8010203040504030201L,
+            8000000000000000000L, 8000600000000000600L, 8070007000700070007L,
+            8000000000000000000L, 8000000000000000000L, 8170017001700170017L,
+            8001600000000001600L, 8000000000000000000L, 8111213141514131211L
+    }, 2, null);
 
     public int get(int y, int x) {
-        return (int) (board[y] / divisor[x] % 100);
+        return board.bit(y, x);
     }
 
     public void update(int y, int x, int id) {
-        int sourceId = get(y, x);
-        board[y] += divisor[x] * sourceId < id ? id - sourceId : sourceId - id;
+        board.update(y, x, id);
     }
 
     public void clear(int y, int x) {
-        board[y] -= divisor[x] * get(y, x);
+        board.clear(y, x);
     }
 
     public void move(int y, int x, Chessman chessman) {
@@ -46,7 +32,7 @@ public final class Board {
     }
 
     public String hash() {
-        return Codec.complex(Arrays.toString(board), Arrays.hashCode(board));
+        return Codec.complex(Arrays.toString(board.data()), Arrays.hashCode(board.data()));
     }
 
     public void view() {

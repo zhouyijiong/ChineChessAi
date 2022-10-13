@@ -19,6 +19,7 @@ public final class BCar extends Chessman {
 
     @Override
     public void navigate() {
-        Params.calcCareNavigate(navigate.clear(), id, x, y);
+        navigate.clear();
+        Params.calcCareNavigate(navigate, id, x, y);
     }
 }

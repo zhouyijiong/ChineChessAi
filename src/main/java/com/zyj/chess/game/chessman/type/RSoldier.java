@@ -21,10 +21,11 @@ public final class RSoldier extends Chessman {
     @Override
     public void navigate() {
         int t = y - 1;
-        if (t > 0) Params.calcNavigate(navigate.clear(), false, x, t);
+        navigate.clear();
+        if (t > 0) Params.calcNavigate(navigate, false, x, t);
         if (y < 6) {
-            if ((t = x + 1) < 10) Params.calcNavigate(navigate.clear(), false, t, y);
-            if ((t = x - 1) > 0) Params.calcNavigate(navigate.clear(), false, t, y);
+            if ((t = x + 1) < 10) Params.calcNavigate(navigate, false, t, y);
+            if ((t = x - 1) > 0) Params.calcNavigate(navigate, false, t, y);
         }
     }
 }

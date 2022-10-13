@@ -19,7 +19,8 @@ public final class RSquire extends Chessman {
 
     @Override
     public void navigate() {
+        navigate.clear();
         for (int p : Params.RED_SQUIRE_NAVIGATE.get(y * 10 + x))
-            Params.calcNavigate(navigate.clear(), true, p % 10, p / 10);
+            Params.calcNavigate(navigate, true, p % 10, p / 10);
     }
 }

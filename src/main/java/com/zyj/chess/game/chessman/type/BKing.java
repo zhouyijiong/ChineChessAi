@@ -20,11 +20,18 @@ public final class BKing extends Chessman {
 
     @Override
     public void navigate() {
-        for (Integer i : Params.BLACK_KING_NAVIGATE.get(y * 10 + x)) {
-            int y = i / 10;
-            int x = i % 10;
-            Game.BOARD.get(y, x);
-            //计算位置是否安全
+        navigate.clear();
+        boolean key = true;
+        for (int p : Params.BLACK_KING_NAVIGATE.get(y * 10 + x)) {
+            for (Chessman chessman : Game.RED.getChess()) {
+                if (chessman.getNavigate().eat.get(p) == null) continue;
+                key = false;
+                break;
+            }
+            if (key) {
+                int chess = Game.BOARD.get(p / 10, p % 10);
+                if (chess == 0 || chess > 7) navigate.point.add(p);
+            }
         }
     }
 }

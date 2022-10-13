@@ -21,10 +21,11 @@ public final class BSoldier extends Chessman {
     @Override
     public void navigate() {
         int t = y + 1;
-        if (t < 11) Params.calcNavigate(navigate.clear(), true, x, t);
+        navigate.clear();
+        if (t < 11) Params.calcNavigate(navigate, true, x, t);
         if (y > 5) {
-            if ((t = x + 1) < 10) Params.calcNavigate(navigate.clear(), true, t, y);
-            if ((t = x - 1) > 0) Params.calcNavigate(navigate.clear(), true, t, y);
+            if ((t = x + 1) < 10) Params.calcNavigate(navigate, true, t, y);
+            if ((t = x - 1) > 0) Params.calcNavigate(navigate, true, t, y);
         }
     }
 }

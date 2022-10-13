@@ -19,12 +19,12 @@ public final class Params {
 
     static {
         HORSE_NAVIGATE = getHorseNavigate();
-        BLACK_ELEPHANT_NAVIGATE = getElephantNavigate();
-        BLACK_SQUIRE_NAVIGATE = getSquireNavigate();
-        BLACK_KING_NAVIGATE = getKingNavigate();
-        RED_ELEPHANT_NAVIGATE = getMirrorElephantNavigate();
-        RED_SQUIRE_NAVIGATE = getMirrorSquireNavigate();
-        RED_KING_NAVIGATE = getMirrorKingNavigate();
+        BLACK_ELEPHANT_NAVIGATE = getBlackElephantNavigate();
+        BLACK_SQUIRE_NAVIGATE = getBlackSquireNavigate();
+        BLACK_KING_NAVIGATE = getBlackKingNavigate();
+        RED_ELEPHANT_NAVIGATE = getRedElephantNavigate();
+        RED_SQUIRE_NAVIGATE = getRedSquireNavigate();
+        RED_KING_NAVIGATE = getRedKingNavigate();
     }
 
     public static void getNavigate(Map<Integer, int[][]> map, Navigate navigate, int id, int x, int y) {
@@ -146,7 +146,7 @@ public final class Params {
         return map;
     }
 
-    private static Map<Integer, int[][]> getElephantNavigate() {
+    private static Map<Integer, int[][]> getBlackElephantNavigate() {
         Map<Integer, int[][]> map = new HashMap<>();
         map.put(13, new int[][]{{35, 31}, {24, 22}});
         map.put(17, new int[][]{{39, 35}, {28, 26}});
@@ -158,7 +158,7 @@ public final class Params {
         return map;
     }
 
-    private static Map<Integer, int[]> getSquireNavigate() {
+    private static Map<Integer, int[]> getBlackSquireNavigate() {
         Map<Integer, int[]> map = new HashMap<>();
         map.put(14, new int[]{25});
         map.put(16, new int[]{25});
@@ -168,7 +168,7 @@ public final class Params {
         return map;
     }
 
-    private static Map<Integer, int[]> getKingNavigate() {
+    private static Map<Integer, int[]> getBlackKingNavigate() {
         Map<Integer, int[]> map = new HashMap<>();
         map.put(14, new int[]{15, 24});
         map.put(15, new int[]{14, 16, 25});
@@ -230,39 +230,39 @@ public final class Params {
         return true;
     }
 
-    private static Map<Integer, int[][]> getMirrorElephantNavigate() {
-        Map<Integer, int[][]> mirrorMap = new HashMap<>();
-        mirrorMap.put(17, new int[][]{{89, 85}, {98, 96}});
-        mirrorMap.put(35, new int[][]{{107, 67, 103, 63}, {96, 76, 94, 74}});
-        mirrorMap.put(53, new int[][]{{85, 81}, {74, 72}});
-        mirrorMap.put(39, new int[][]{{107, 67}, {98, 78}});
-        mirrorMap.put(57, new int[][]{{89, 85}, {78, 76}});
-        mirrorMap.put(13, new int[][]{{85, 81}, {94, 92}});
-        mirrorMap.put(31, new int[][]{{103, 63}, {92, 72}});
-        return mirrorMap;
+    private static Map<Integer, int[][]> getRedElephantNavigate() {
+        Map<Integer, int[][]> map = new HashMap<>();
+        map.put(103, new int[][]{{85, 81}, {94, 92}});
+        map.put(107, new int[][]{{89, 85}, {98, 97}});
+        map.put(81, new int[][]{{103, 63}, {92, 72}});
+        map.put(85, new int[][]{{107, 67, 103, 63}, {96, 76, 94, 74}});
+        map.put(89, new int[][]{{107, 67}, {98, 78}});
+        map.put(63, new int[][]{{85, 81}, {74, 72}});
+        map.put(67, new int[][]{{89, 85}, {78, 76}});
+        return map;
     }
 
-    private static Map<Integer, int[]> getMirrorSquireNavigate() {
-        Map<Integer, int[]> mirror = new HashMap<>();
-        mirror.put(16, new int[]{95});
-        mirror.put(34, new int[]{95});
-        mirror.put(36, new int[]{95});
-        mirror.put(25, new int[]{106, 84, 104, 86});
-        mirror.put(14, new int[]{95});
-        return mirror;
+    private static Map<Integer, int[]> getRedSquireNavigate() {
+        Map<Integer, int[]> map = new HashMap<>();
+        map.put(104, new int[]{95});
+        map.put(106, new int[]{95});
+        map.put(95, new int[]{106, 84, 104, 86});
+        map.put(84, new int[]{95});
+        map.put(86, new int[]{95});
+        return map;
     }
 
-    private static Map<Integer, int[]> getMirrorKingNavigate() {
-        Map<Integer, int[]> mirror = new HashMap<>();
-        mirror.put(14, new int[]{105, 96});
-        mirror.put(15, new int[]{85, 94});
-        mirror.put(16, new int[]{84, 86, 95});
-        mirror.put(24, new int[]{85, 96});
-        mirror.put(25, new int[]{95, 84, 104});
-        mirror.put(26, new int[]{94, 96, 85, 105});
-        mirror.put(34, new int[]{95, 86, 106});
-        mirror.put(35, new int[]{105, 94});
-        mirror.put(36, new int[]{104, 106, 95});
-        return mirror;
+    private static Map<Integer, int[]> getRedKingNavigate() {
+        Map<Integer, int[]> map = new HashMap<>();
+        map.put(104, new int[]{105, 96});
+        map.put(105, new int[]{104, 106, 95});
+        map.put(106, new int[]{105, 96});
+        map.put(94, new int[]{95, 84, 104});
+        map.put(95, new int[]{94, 96, 85, 105});
+        map.put(96, new int[]{95, 86, 106});
+        map.put(84, new int[]{85, 94});
+        map.put(85, new int[]{84, 86, 95});
+        map.put(86, new int[]{85, 96});
+        return map;
     }
 }

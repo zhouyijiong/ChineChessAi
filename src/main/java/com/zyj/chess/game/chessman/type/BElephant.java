@@ -9,7 +9,7 @@ import com.zyj.chess.game.params.Params;
  */
 public final class BElephant extends Chessman {
     public BElephant(int y, int x) {
-        super(3, x, y, 6, new Navigate(2, 4, null));//1
+        super(3, x, y, 6, new Navigate(1, 4, null));
     }
 
     @Override
@@ -19,6 +19,7 @@ public final class BElephant extends Chessman {
 
     @Override
     public void navigate() {
-        Params.getNavigate(Params.BLACK_ELEPHANT_NAVIGATE, navigate.clear(), id, x, y);
+        navigate.clear();
+        Params.getNavigate(Params.BLACK_ELEPHANT_NAVIGATE, navigate, id, x, y);
     }
 }

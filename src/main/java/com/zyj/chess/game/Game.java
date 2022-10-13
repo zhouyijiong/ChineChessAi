@@ -9,9 +9,9 @@ import com.zyj.chess.game.team.Team;
 public final class Game {
     boolean current = true;
 
-    static final Team RED = new RedTeam();
+    public static final Team RED = new RedTeam();
 
-    static final Team BLACK = new BlackTeam();
+    public static final Team BLACK = new BlackTeam();
 
     public static final Board BOARD = new Board();
 
@@ -21,6 +21,6 @@ public final class Game {
 
     public static void main(String[] args) {
         Game.BOARD.view();
-        BLACK.navigate();
+        RED.navigate();
     }
 }

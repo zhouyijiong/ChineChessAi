@@ -12,6 +12,8 @@ public abstract class Team {
     protected Chessman[] chess;
 
     public void navigate() {
-        for (Chessman item : chess) item.navigate();
+        for (Chessman item : chess) {
+            item.navigate();
+        }
     }
 }

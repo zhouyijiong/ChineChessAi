@@ -9,7 +9,7 @@ import com.zyj.chess.game.params.Params;
  */
 public final class BCannon extends Chessman {
     public BCannon(int y, int x) {
-        super(6, x, y, 11, new Navigate(11, 2, null));//2
+        super(6, x, y, 11, new Navigate(2, 2, null));
     }
 
     @Override
@@ -19,6 +19,7 @@ public final class BCannon extends Chessman {
 
     @Override
     public void navigate() {
-        Params.calcCannonNavigate(navigate.clear(), id, x, y);
+        navigate.clear();
+        Params.calcCannonNavigate(navigate, id, x, y);
     }
 }

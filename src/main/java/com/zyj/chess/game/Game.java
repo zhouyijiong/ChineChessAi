@@ -21,6 +21,6 @@ public final class Game {
 
     public static void main(String[] args) {
         Game.BOARD.view();
-        RED.navigate();
+        BLACK.navigate();
     }
 }

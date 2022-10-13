@@ -10,7 +10,7 @@ import com.zyj.chess.game.params.Params;
  */
 public final class RSoldier extends Chessman {
     public RSoldier(int y, int x) {
-        super(17, x, y, 3, new Navigate(1, 2, null));
+        super(17, x, y, 4, new Navigate(1, 2, null));
     }
 
     @Override

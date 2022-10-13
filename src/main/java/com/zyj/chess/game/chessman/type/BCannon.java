@@ -1,17 +1,15 @@
 package com.zyj.chess.game.chessman.type;
 
 import com.zyj.chess.game.chessman.Chessman;
-import com.zyj.chess.game.params.Navigates;
+import com.zyj.chess.game.params.Navigate;
 import com.zyj.chess.game.params.Params;
-
-import java.util.List;
 
 /**
  * 黑炮
  */
 public final class BCannon extends Chessman {
     public BCannon(int y, int x) {
-        super(6, x, y, 11, Navigates.NO_LIMIT);
+        super(6, x, y, 11, new Navigate(11, 2, null));//2
     }
 
     @Override
@@ -20,7 +18,7 @@ public final class BCannon extends Chessman {
     }
 
     @Override
-    public void navigate(List<Integer> list) {
-        Params.calcCannonNavigate(list, id, x, y);
+    public void navigate() {
+        Params.calcCannonNavigate(navigate.clear(), id, x, y);
     }
 }

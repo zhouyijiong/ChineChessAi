@@ -1,17 +1,15 @@
 package com.zyj.chess.game.chessman.type;
 
 import com.zyj.chess.game.chessman.Chessman;
-import com.zyj.chess.game.params.Navigates;
+import com.zyj.chess.game.params.Navigate;
 import com.zyj.chess.game.params.Params;
-
-import java.util.List;
 
 /**
  * 红士
  */
 public final class RSquire extends Chessman {
     public RSquire(int y, int x) {
-        super(14, x, y, 6, Navigates.NO_LIMIT);
+        super(14, x, y, 6, new Navigate(1, 2, null));
     }
 
     @Override
@@ -20,7 +18,8 @@ public final class RSquire extends Chessman {
     }
 
     @Override
-    public void navigate(List<Integer> list) {
-        list.addAll(Params.RED_SQUIRE_NAVIGATE.get(y * 10 + x));
+    public void navigate() {
+        for (int p : Params.RED_SQUIRE_NAVIGATE.get(y * 10 + x))
+            Params.calcNavigate(navigate.clear(), true, p % 10, p / 10);
     }
 }

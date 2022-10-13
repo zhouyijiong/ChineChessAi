@@ -1,19 +1,19 @@
 package com.zyj.chess.game.tool;
 
-import com.zyj.chess.game.params.Params;
-
 public final class BitList {
     private long[] data;
 
     private int size, index, current;
 
-    private final int width, rounds;
+    private final int base, width, rounds;
 
     private final long remainder, defaultValue;
 
     private final CapacityMode capacityMode;
 
-    interface CapacityMode {
+    static final long[] DIGITS = {1000000000000000000L, 100000000000000000L, 10000000000000000L, 1000000000000000L, 100000000000000L, 10000000000000L, 1000000000000L, 100000000000L, 10000000000L, 1000000000L, 100000000L, 10000000L, 1000000L, 100000L, 10000L, 1000L, 100L, 10L, 1L};
+
+    public interface CapacityMode {
         long[] capacity(int oldSize);
     }
 
@@ -21,9 +21,10 @@ public final class BitList {
         this.data = new long[len];
         this.width = width;
         this.rounds = 18 / width;
+        this.base = width * rounds;
         this.capacityMode = capacityMode;
         if (head < 1 || head > 9) throw new RuntimeException("head range 1-9");
-        this.remainder = Params.DIGITS[18 - width];
+        this.remainder = DIGITS[18 - width];
         this.defaultValue = head * 1000000000000000000L;
         for (int i = 0; i < len; ++i) data[i] = defaultValue;
     }
@@ -32,18 +33,31 @@ public final class BitList {
         this.data = data;
         this.width = width;
         this.rounds = 18 / width;
+        this.base = width * rounds;
         this.capacityMode = capacityMode;
-        this.remainder = Params.DIGITS[18 - width];
+        this.remainder = DIGITS[18 - width];
         this.defaultValue = 1000000000000000000L;
     }
 
-    public void put(int n) {
+    public BitList(BitList bitList) {
+        int len = bitList.data.length;
+        this.data = new long[len];
+        this.width = bitList.width;
+        this.rounds = bitList.rounds;
+        this.base = bitList.base;
+        this.capacityMode = bitList.capacityMode;
+        this.remainder = bitList.remainder;
+        this.defaultValue = bitList.defaultValue;
+        for (int i = 0; i < len; ++i) data[i] = defaultValue;
+    }
+
+    public void add(int n) {
         if (++current > rounds) {
             current = 1;
             if (++index + 1 > data.length) capacity();
         }
         ++size;
-        data[index] += Params.DIGITS[current * width] * n;
+        data[index] += DIGITS[current * width] * n;
     }
 
     public long get(int n) {
@@ -51,35 +65,42 @@ public final class BitList {
     }
 
     public int bit(int i) {
-        return (int) (data[i / rounds] / Params.DIGITS[i * width % 18 + width] % remainder);
+        return (int) (data[i / rounds] / DIGITS[i * width % base + width] % remainder);
     }
 
     public int bit(int y, int x) {
-        return (int) (data[y] / Params.DIGITS[x * width] % remainder);
+        return (int) (data[y] / DIGITS[x * width] % remainder);
     }
 
     public void update(int i, int n) {
         long l = data[i / rounds];
-        long base = Params.DIGITS[i * width % 18 + width];
+        long base = DIGITS[i * width % this.base + width];
         data[i / rounds] = l + base * (n - l / base % remainder);
     }
 
     public void update(int y, int x, int n) {
         long l = data[y];
-        long base = Params.DIGITS[x * width];
+        long base = DIGITS[x * width];
         data[y] = l + base * (n - l / base % remainder);
     }
 
     public void clear(int i) {
         long l = data[i / rounds];
-        long base = Params.DIGITS[i * width % 18 + width];
+        long base = DIGITS[i * width % this.base + width];
         data[i / rounds] = l - base * (l / base % remainder);
     }
 
     public void clear(int y, int x) {
         long l = data[y];
-        long base = Params.DIGITS[x * width];
+        long base = DIGITS[x * width];
         data[y] = l - base * (l / base % remainder);
+    }
+
+    public void clearAll() {
+        size = 0;
+        index = 0;
+        current = 0;
+        for (int i = 0, len = data.length; i < len; i++) data[i] = defaultValue;
     }
 
     public int size() {
@@ -93,8 +114,16 @@ public final class BitList {
     public void capacity() {
         int oldLength = data.length;
         long[] temp = capacityMode.capacity(oldLength);
-        for (int i = oldLength, len = temp.length; i < len; ++i) temp[i] = defaultValue;
         System.arraycopy(data, 0, temp, 0, oldLength);
+        for (int i = oldLength, len = temp.length; i < len; ++i) temp[i] = defaultValue;
         data = temp;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('[').append(data[0]);
+        for (int i = 1; i < index; ++i) sb.append(", ").append(data[i]);
+        return sb.append("]").toString();
     }
 }

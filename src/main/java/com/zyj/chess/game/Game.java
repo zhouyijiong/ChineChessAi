@@ -6,8 +6,6 @@ import com.zyj.chess.game.team.BlackTeam;
 import com.zyj.chess.game.team.RedTeam;
 import com.zyj.chess.game.team.Team;
 
-import java.util.*;
-
 public final class Game {
     boolean current = true;
 
@@ -23,7 +21,6 @@ public final class Game {
 
     public static void main(String[] args) {
         Game.BOARD.view();
-        List<Integer> list = BLACK.navigate();
-        System.out.println(list);
+        BLACK.navigate();
     }
 }

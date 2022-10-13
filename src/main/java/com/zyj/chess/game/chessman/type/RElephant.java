@@ -1,17 +1,15 @@
 package com.zyj.chess.game.chessman.type;
 
 import com.zyj.chess.game.chessman.Chessman;
-import com.zyj.chess.game.params.Navigates;
+import com.zyj.chess.game.params.Navigate;
 import com.zyj.chess.game.params.Params;
-
-import java.util.List;
 
 /**
  * 红象
  */
 public final class RElephant extends Chessman {
     public RElephant(int y, int x) {
-        super(13, x, y, 6, Navigates.LIMIT);
+        super(13, x, y, 6, new Navigate(2, 4, null));//1
     }
 
     @Override
@@ -20,7 +18,7 @@ public final class RElephant extends Chessman {
     }
 
     @Override
-    public void navigate(List<Integer> list) {
-        Params.getNavigate(Params.RED_ELEPHANT_NAVIGATE, list, x, y);
+    public void navigate() {
+        Params.getNavigate(Params.RED_ELEPHANT_NAVIGATE, navigate.clear(), id, x, y);
     }
 }

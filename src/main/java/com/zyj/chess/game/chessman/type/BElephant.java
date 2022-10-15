@@ -20,6 +20,6 @@ public final class BElephant extends Chessman {
     @Override
     public void navigate() {
         navigate.clear();
-        Params.getNavigate(Params.BLACK_ELEPHANT_NAVIGATE, navigate, id, x, y);
+        Params.getNavigate(Params.BLACK_ELEPHANT_NAVIGATE.get(y * 10 + x), navigate, id, x, y);
     }
 }

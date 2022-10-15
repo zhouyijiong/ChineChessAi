@@ -11,6 +11,8 @@ public final class Navigate {
 
     public final Map<Integer, Integer> eat = new HashMap<>();
 
+    public final Map<Integer, Integer> protect = new HashMap<>();
+
     public Navigate(int len, int width, BitList.CapacityMode capacityMode) {
         this.point = new BitList(len, 1, width, capacityMode);
     }

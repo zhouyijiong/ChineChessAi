@@ -27,8 +27,7 @@ public final class Params {
         RED_KING_NAVIGATE = getRedKingNavigate();
     }
 
-    public static void getNavigate(Map<Integer, int[][]> map, Navigate navigate, int id, int x, int y) {
-        int[][] arrays = map.get(y * 10 + x);
+    public static void getNavigate(int[][] arrays, Navigate navigate, int id, int x, int y) {
         int[] point = arrays[0];
         int[] baffle = arrays[1];
         boolean key = id < 8;
@@ -38,7 +37,13 @@ public final class Params {
                 int p = point[i];
                 if ((id = Game.BOARD.get(p / 10, p % 10)) == 0) {
                     navigate.point.add(p);
-                } else if (key ? id > 7 : id < 8) navigate.eat.put(p, id);
+                } else {
+                    if (key ? id > 7 : id < 8) {
+                        navigate.eat.put(p, id);
+                    } else {
+                        navigate.protect.put(p, id);
+                    }
+                }
             }
         }
     }
@@ -186,23 +191,29 @@ public final class Params {
         boolean key = id < 8;
         for (id = x + 1; id < 10; ++id)
             if (calcCannonMoveCore(navigate.point, id, y))
-                for (++id; id < 10; ++id) if (calcCannonEatCore(navigate.eat, id, y, key)) break;
+                for (++id; id < 10; ++id) if (calcCannonEatCore(navigate, id, y, key)) break;
         for (id = x - 1; id > 0; --id)
             if (calcCannonMoveCore(navigate.point, id, y))
-                for (--id; id > 0; --id) if (calcCannonEatCore(navigate.eat, id, y, key)) break;
+                for (--id; id > 0; --id) if (calcCannonEatCore(navigate, id, y, key)) break;
         for (id = y + 1; id < 11; ++id)
             if (calcCannonMoveCore(navigate.point, x, id))
-                for (++id; id < 11; ++id) if (calcCannonEatCore(navigate.eat, x, id, key)) break;
+                for (++id; id < 11; ++id) if (calcCannonEatCore(navigate, x, id, key)) break;
         for (id = y - 1; id > 0; --id)
             if (calcCannonMoveCore(navigate.point, x, id))
-                for (--id; id > 0; --id) if (calcCannonEatCore(navigate.eat, x, id, key)) break;
+                for (--id; id > 0; --id) if (calcCannonEatCore(navigate, x, id, key)) break;
     }
 
     public static void calcNavigate(Navigate navigate, boolean key, int x, int y) {
         int p = y * 10 + x;
         if ((x = Game.BOARD.get(y, x)) == 0) {
             navigate.point.add(p);
-        } else if (key ? x > 7 : x < 8) navigate.eat.put(p, x);
+        } else {
+            if (key ? x > 7 : x < 8) {
+                navigate.eat.put(p, x);
+            } else {
+                navigate.protect.put(p, x);
+            }
+        }
     }
 
     public static boolean calcNavigateCore(Navigate navigate, int x, int y, boolean key) {
@@ -210,7 +221,13 @@ public final class Params {
         if ((x = Game.BOARD.get(y, x)) == 0) {
             navigate.point.add(p);
             return false;
-        } else if (key ? x > 7 : x < 8) navigate.eat.put(p, x);
+        } else {
+            if (key ? x > 7 : x < 8) {
+                navigate.eat.put(p, x);
+            } else {
+                navigate.protect.put(p, x);
+            }
+        }
         return true;
     }
 
@@ -222,11 +239,17 @@ public final class Params {
         return true;
     }
 
-    public static boolean calcCannonEatCore(Map<Integer, Integer> eat, int x, int y, boolean key) {
+    public static boolean calcCannonEatCore(Navigate navigate, int x, int y, boolean key) {
         int id;
         if ((id = Game.BOARD.get(y, x)) == 0) {
             return false;
-        } else if (key ? id > 7 : id < 8) eat.put(y * 10 + x, id);
+        } else {
+            if (key ? id > 7 : id < 8) {
+                navigate.eat.put(y * 10 + x, id);
+            } else {
+                navigate.protect.put(y * 10 + x, id);
+            }
+        }
         return true;
     }
 

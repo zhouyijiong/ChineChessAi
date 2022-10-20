@@ -9,17 +9,11 @@ import com.zyj.chess.game.params.Params;
  */
 public final class RHorse extends Chessman {
     public RHorse(int y, int x) {
-        super(12, x, y, 11, new Navigate(2, 4, null));
+        super(12, x, y, 11, 2, 2, null);
     }
 
     @Override
-    public int calcDangerScore(Chessman[] board, int... params) {
-        return 0;
-    }
-
-    @Override
-    public void navigate() {
-        navigate.clear();
-        Params.getNavigate(Params.HORSE_NAVIGATE.get(y * 10 + x), navigate, id, x, y);
+    public void navigate(Navigate navigate) {
+        Params.getNavigate(Params.HORSE_NAVIGATE.get(y * 10 + x), navigate, id, 15);
     }
 }

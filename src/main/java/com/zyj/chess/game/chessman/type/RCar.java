@@ -9,17 +9,11 @@ import com.zyj.chess.game.params.Params;
  */
 public final class RCar extends Chessman {
     public RCar(int y, int x) {
-        super(11, x, y, 23, new Navigate(2, 2, null));
+        super(11, x, y, 23, 2, 2, null);
     }
 
     @Override
-    public int calcDangerScore(Chessman[] board, int... params) {
-        return 0;
-    }
-
-    @Override
-    public void navigate() {
-        navigate.clear();
+    public void navigate(Navigate navigate) {
         Params.calcCareNavigate(navigate, id, x, y);
     }
 }

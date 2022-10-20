@@ -1,50 +1,33 @@
 package com.zyj.chess.ai.valuation;
 
-import com.zyj.chess.game.Game;
 import com.zyj.chess.game.chessman.Chessman;
 import com.zyj.chess.game.params.Navigate;
 import com.zyj.chess.game.team.Team;
 
-import java.util.Map;
-
 //TODO 分数细化，智能则分，目前只有总分
 public final class Valuation {
-    public static final int[] SCORES = new int[]{0, 23, 11, 6, 6, 100, 11, 4, 0, 0, 0, 23, 11, 6, 6, 100, 11, 4};
-
-    public static final double[] POINT_RATIO = new double[]{0, 2, 1, 1, 1, 10, 0.2, 1, 0, 0, 0, 2, 1, 1, 1, 10, 0.2, 1};
-
-    public static final double[] EAT_RATIO = new double[]{0, 5.75, 2.75, 1.5, 1.5, 0xff, 2.75, 1, 0, 0, 0, 5.75, 2.75, 1.5, 1.5, 0xff, 2.75, 1};
-
-    public static final double[] PROTECT_RATIO = new double[]{0, 1.5, 3, 4, 4, 0xff, 3, 0.8, 0, 0, 0, 1.5, 3, 4, 4, 0xff, 3, 0.8};
-
-    public double check(Team team) {
-        double black = calcDangerScore(Game.BLACK.getChess())
-                + calcChessmenScore(Game.BLACK.getChess());
-        double red = calcDangerScore(Game.RED.getChess())
-                + calcChessmenScore(Game.RED.getChess());
-        return team.getColor() == 0 ? black - red : red - black;
+    //TODO 把棋子分数存储到Team下，删除一个棋子就删除对应分数
+    public double check(Team red, Team black, int color) {
+        red.referenceNavigate();
+        black.referenceNavigate();
+        double redScore = calcDangerScore(red, red.getChessArray());
+        double blackScore = calcDangerScore(black, black.getChessArray());
+        return color > 0 ? redScore - blackScore : blackScore - redScore;
     }
 
-    public double calcDangerScore(Chessman[] chessman) {
-        int score = 0, id;
+    public double calcDangerScore(Team team, Chessman[] chessman) {
+        double chessScore = 0, eatScore = 0, protectScore = 0, moveScore = 0;
         for (Chessman item : chessman) {
-            Navigate navigate = item.getNavigate();
-            for (Map.Entry<Integer, Integer> eat : navigate.eat.entrySet()) {
-                id = eat.getValue();
-                score += SCORES[id] * EAT_RATIO[id];
-            }
-            for (Map.Entry<Integer, Integer> protect : navigate.protect.entrySet()) {
-                id = protect.getValue();
-                score += SCORES[id] * PROTECT_RATIO[id];
-            }
-            score += navigate.point.size() * POINT_RATIO[item.getId()];
+            Navigate navigate = item.getReferenceNavigate();
+            chessScore += item.getScore();
+            moveScore += item.calcMoveScore(navigate.moves);
+            eatScore += item.calcEatScore(navigate.eats, 0);
+            protectScore += item.calcProtectScore(navigate.protect, 0);
         }
-        return score;
-    }
-
-    public int calcChessmenScore(Chessman[] chessmen) {
-        int score = 0;
-        for (Chessman item : chessmen) score += item.getScore();
-        return score;
+        String color = team.getColor() == 0 ? "黑" : "红";
+        System.out.println(color + "移动分数: " + moveScore);
+        System.out.println(color + "吃子分数: " + eatScore);
+        System.out.println(color + "保护分数: " + protectScore);
+        return chessScore + moveScore + eatScore + protectScore;
     }
 }

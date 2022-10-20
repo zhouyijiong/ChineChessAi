@@ -10,18 +10,12 @@ import com.zyj.chess.game.params.Params;
  */
 public final class BSoldier extends Chessman {
     public BSoldier(int y, int x) {
-        super(7, x, y, 4, new Navigate(1, 2, null));
+        super(7, x, y, 4, 1, 2, null);
     }
 
     @Override
-    public int calcDangerScore(Chessman[] board, int... params) {
-        return 0;
-    }
-
-    @Override
-    public void navigate() {
+    public void navigate(Navigate navigate) {
         int t = y + 1;
-        navigate.clear();
         if (t < 11) Params.calcNavigate(navigate, true, x, t);
         if (y > 5) {
             if ((t = x + 1) < 10) Params.calcNavigate(navigate, true, t, y);

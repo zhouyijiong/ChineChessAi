@@ -1,5 +1,7 @@
 package com.zyj.chess.game.tool;
 
+import java.util.Arrays;
+
 public final class BitList {
     private long[] data;
 
@@ -15,6 +17,20 @@ public final class BitList {
 
     public interface CapacityMode {
         long[] capacity(int oldSize);
+    }
+
+    private BitList(BitList bitList) {
+        this.data = new long[bitList.data.length];
+        System.arraycopy(bitList.data,0,data,0,data.length);
+        this.width = bitList.width;
+        this.rounds = bitList.rounds;
+        this.base = bitList.base;
+        this.capacityMode = bitList.capacityMode;
+        this.remainder = bitList.remainder;
+        this.defaultValue = bitList.defaultValue;
+        this.index = bitList.index;
+        this.size = bitList.size;
+        this.current = bitList.current;
     }
 
     public BitList(int len, int head, int width, CapacityMode capacityMode) {
@@ -39,16 +55,8 @@ public final class BitList {
         this.defaultValue = 1000000000000000000L;
     }
 
-    public BitList(BitList bitList) {
-        int len = bitList.data.length;
-        this.data = new long[len];
-        this.width = bitList.width;
-        this.rounds = bitList.rounds;
-        this.base = bitList.base;
-        this.capacityMode = bitList.capacityMode;
-        this.remainder = bitList.remainder;
-        this.defaultValue = bitList.defaultValue;
-        for (int i = 0; i < len; ++i) data[i] = defaultValue;
+    public BitList mirror() {
+        return new BitList(this);
     }
 
     public void add(int n) {

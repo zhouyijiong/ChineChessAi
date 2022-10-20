@@ -8,11 +8,21 @@ import com.zyj.chess.game.tool.BitList;
 import java.util.Arrays;
 
 public final class Board {
-    BitList board = new BitList(new long[]{8000000000000000000L, 8010203040504030201L,
+    private BitList board = new BitList(new long[]{8000000000000000000L, 8010203040504030201L,
             8000000000000000000L, 8000600000000000600L, 8070007000700070007L,
             8000000000000000000L, 8000000000000000000L, 8170017001700170017L,
             8001600000000001600L, 8000000000000000000L, 8111213141514131211L
     }, 2, null);
+
+    private BitList mirror = this.board.mirror();
+
+    public void record() {
+        this.mirror = this.board.mirror();
+    }
+
+    public void rollback() {
+        this.board = this.mirror.mirror();
+    }
 
     public int get(int y, int x) {
         return board.bit(y, x);
@@ -29,6 +39,24 @@ public final class Board {
     public void move(int y, int x, Chessman chessman) {
         clear(chessman.getY(), chessman.getX());
         update(y, x, chessman.getId());
+        chessman.setX(x);
+        chessman.setY(y);
+        view();
+    }
+
+    public int eat(int y, int x, Chessman chessman) {
+        clear(chessman.getY(), chessman.getX());
+        int tc = get(y, x);
+        update(y, x, chessman.getId());
+        return tc;
+    }
+
+    public BitList getData() {
+        return board;
+    }
+
+    public void updateData(BitList board) {
+        this.board = board;
     }
 
     public String hash() {

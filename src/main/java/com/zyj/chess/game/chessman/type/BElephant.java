@@ -1,5 +1,6 @@
 package com.zyj.chess.game.chessman.type;
 
+import com.zyj.chess.game.Game;
 import com.zyj.chess.game.chessman.Chessman;
 import com.zyj.chess.game.params.Navigate;
 import com.zyj.chess.game.params.Params;
@@ -14,6 +15,12 @@ public final class BElephant extends Chessman {
 
     @Override
     public void navigate(Navigate navigate) {
-        Params.getNavigate(Params.BLACK_ELEPHANT_NAVIGATE.get(y * 10 + x), navigate, id, 5);
+        int ty = y - 1;
+        if (ty > 0 && Game.BOARD.get(ty, x) == 5) {
+            navigate.protect.put(ty * 10 + x, 5);
+        } else if ((ty = y - 2) > 0 && Game.BOARD.get(ty, x) == 5) {
+            navigate.protect.put(ty * 10 + x, 5);
+        }
+        Params.getNavigate(Params.BLACK_ELEPHANT_NAVIGATE.get(y * 10 + x), navigate, id);
     }
 }

@@ -4,6 +4,15 @@ import com.zyj.chess.game.chessman.Chessman;
 import com.zyj.chess.game.chessman.type.*;
 
 public final class BlackTeam extends Team {
+    public BlackTeam(Team team) {
+        super(team);
+    }
+
+    @Override
+    public Team mirror() {
+        return new BlackTeam(this);
+    }
+
     public BlackTeam() {
         super(0, new Chessman[]{
                 new BCar(1, 1), new BHorse(1, 2), new BElephant(1, 3), new BSquire(1, 4),

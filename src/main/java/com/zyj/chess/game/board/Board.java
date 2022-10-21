@@ -1,8 +1,10 @@
 package com.zyj.chess.game.board;
 
 import com.zyj.chess.ai.tool.Codec;
+import com.zyj.chess.game.Game;
 import com.zyj.chess.game.chessman.Chessman;
 import com.zyj.chess.game.params.Params;
+import com.zyj.chess.game.team.Team;
 import com.zyj.chess.game.tool.BitList;
 
 import java.util.Arrays;
@@ -44,11 +46,11 @@ public final class Board {
         view();
     }
 
-    public int eat(int y, int x, Chessman chessman) {
+    public boolean eat(int y, int x, Chessman chessman, int color) {
         clear(chessman.getY(), chessman.getX());
-        int tc = get(y, x);
         update(y, x, chessman.getId());
-        return tc;
+        view();
+        return color == 1 ? Game.BLACK_MIRROR.delete(y * 10 + x) : Game.RED_MIRROR.delete(y * 10 + x);
     }
 
     public BitList getData() {

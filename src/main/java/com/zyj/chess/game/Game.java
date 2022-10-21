@@ -16,6 +16,9 @@ public final class Game {
 
     public static final Team BLACK = new BlackTeam();
 
+    public static Team RED_MIRROR = RED.mirror();
+    public static Team BLACK_MIRROR = BLACK.mirror();
+
     public static final Board BOARD = new Board();
 
     public static final Valuation VALUATION = new Valuation();
@@ -30,8 +33,14 @@ public final class Game {
     public Game(boolean redCurrent, GameModel model) {
         this.redCurrent = redCurrent;
         if (model == null) this.model = () -> {
-            //BOARD.view();
-            RED.score();
+            while (true) {
+                if (redCurrent) {
+                    RED.playingChess();
+                } else {
+                    BLACK.playingChess();
+                }
+                rebirth();
+            }
         };
         else this.model = model;
     }
@@ -40,9 +49,10 @@ public final class Game {
         redCurrent = !redCurrent;
     }
 
-    public boolean playingChess(Chessman chessman, int ty, int tx) {
-        if (BOARD.eat(ty, tx, chessman) > 0) return redCurrent ? BLACK.delete(ty * 10 + tx) : RED.delete(ty * 10 + tx);
-        return true;
+    public static void rollback() {
+        RED_MIRROR = RED.mirror();
+        BLACK_MIRROR = BLACK.mirror();
+        BOARD.rollback();
     }
 
     public void start(Chessman chessman, int y, int x) {

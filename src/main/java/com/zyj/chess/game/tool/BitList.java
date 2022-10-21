@@ -1,7 +1,5 @@
 package com.zyj.chess.game.tool;
 
-import java.util.Arrays;
-
 public final class BitList {
     private long[] data;
 

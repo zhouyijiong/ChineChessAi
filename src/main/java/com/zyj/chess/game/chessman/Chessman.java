@@ -1,12 +1,12 @@
 package com.zyj.chess.game.chessman;
 
-import com.zyj.chess.ai.valuation.Valuation;
 import com.zyj.chess.game.Game;
 import com.zyj.chess.game.params.Navigate;
-import com.zyj.chess.game.team.Team;
 import com.zyj.chess.game.tool.BitList;
+import com.zyj.chess.game.tool.KV;
 import lombok.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Getter
@@ -27,7 +27,7 @@ public abstract class Chessman {
 
     static final double[] EAT_RATIO = new double[]{0, 5.75, 2.75, 1.5, 1.5, 0xff, 2.75, 1, 0, 0, 0, 5.75, 2.75, 1.5, 1.5, 0xff, 2.75, 1};
 
-    static final double[] PROTECT_RATIO = new double[]{0, 0.65, 0.65, 0.6, 0.6, 1.3, 0.65, 0.35, 0, 0, 0, 0.65, 0.65, 0.6, 0.6, 1.3, 0.65, 0.35};
+    static final double[] PROTECT_RATIO = new double[]{0, 0.65, 0.65, 0.6, 0.6, 0.7, 0.65, 0.35, 0, 0, 0, 0.65, 0.65, 0.6, 0.6, 0.7, 0.65, 0.35};
 
     public Chessman(int id, int x, int y, double score, int len, int width, BitList.CapacityMode capacityMode) {
         this.id = id;
@@ -73,40 +73,41 @@ public abstract class Chessman {
         return score;
     }
 
-    public double probe(Team red, Team black, int color) {
+    public void probe(Map<Double, KV<Chessman, Integer>> map, double[] scores, int color) {
         int index;
         double score;
         System.out.println(this);
-        normalNavigate();
         BitList bitList = normalNavigate.moves;
-        System.out.println(bitList.get(0));
         Game.BOARD.record();
-        for (int i = 0, len = bitList.size(); i < len; ++i) {
+        int size = bitList.size();
+        for (int i = 0; i < size; ++i) {
             index = bitList.bit(i);
             int ty = y, tx = x;
             Game.BOARD.move(index / 10, index % 10, this);
             //System.out.println(this);
-            score = Game.VALUATION.check(red, black, color);
+            score = Game.VALUATION.check(color);
+            scores[i] = score;
+            map.put(score, new KV<>(this, i));
             System.out.println("移动: " + index + ",分数: " + score);
             setY(ty);
             setX(tx);
-            Game.BOARD.rollback();
-            Game.RED.rollback();
-            Game.BLACK.rollback();
+            Game.rollback();
             //System.out.println(this);
             //if(i==1) throw new RuntimeException();
         }
-        Map<Integer, Integer> eats = normalNavigate.eats;
-        for (Map.Entry<Integer, Integer> item : eats.entrySet()) {
+        int i = -1;
+        for (Map.Entry<Integer, Integer> item : normalNavigate.eats.entrySet()) {
             index = item.getKey();
-            if (Game.BOARD.eat(index / 10, index % 10, this) > 0) {
-                score = Game.VALUATION.check(red, black, color);
-                //System.out.println("吃子: " + index + ",分数: " + score);
+            if (Game.BOARD.eat(index / 10, index % 10, this, color)) {
+                score = Game.VALUATION.check(color);
+                scores[size++] = score;
+                map.put(score, new KV<>(this, ++i));
+                System.out.println("吃子: " + index + ",分数: " + score);
                 Game.BOARD.rollback();
             } else {
                 System.out.println("游戏结束");
             }
         }
-        return -1;
+
     }
 }

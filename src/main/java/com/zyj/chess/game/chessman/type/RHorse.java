@@ -14,6 +14,6 @@ public final class RHorse extends Chessman {
 
     @Override
     public void navigate(Navigate navigate) {
-        Params.getNavigate(Params.HORSE_NAVIGATE.get(y * 10 + x), navigate, id, 15);
+        Params.getNavigate(Params.HORSE_NAVIGATE.get(y * 10 + x), navigate, id);
     }
 }

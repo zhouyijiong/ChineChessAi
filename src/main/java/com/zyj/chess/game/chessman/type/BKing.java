@@ -15,17 +15,17 @@ public final class BKing extends Chessman {
 
     @Override
     public void navigate(Navigate navigate) {
-        boolean key = true;
+        //boolean key = true;
         for (int p : Params.BLACK_KING_NAVIGATE.get(y * 10 + x)) {
             for (Chessman chessman : Game.RED.getChessArray()) {
                 if (chessman.getNormalNavigate().eats.get(p) == null) continue;
-                key = false;
+                //key = false;
                 break;
             }
-            if (key) {
+            //if (key) {
                 int chess = Game.BOARD.get(p / 10, p % 10);
                 if (chess == 0 || chess > 7) navigate.moves.add(p);
-            }
+            //}
         }
     }
 }

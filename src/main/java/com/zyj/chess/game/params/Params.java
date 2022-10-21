@@ -28,7 +28,7 @@ public final class Params {
         RED_KING_NAVIGATE = getRedKingNavigate();
     }
 
-    public static void getNavigate(int[][] arrays, Navigate navigate, int id, int pid) {
+    public static void getNavigate(int[][] arrays, Navigate navigate, int id) {
         int[] point = arrays[0];
         int[] baffle = arrays[1];
         boolean key = id < 8;
@@ -36,8 +36,7 @@ public final class Params {
             int bp = baffle[i];
             if (Game.BOARD.get(bp / 10, bp % 10) == 0) {
                 int p = point[i];
-                int y, x;
-                if ((id = Game.BOARD.get(y = p / 10, x = p % 10)) == 0) {
+                if ((id = Game.BOARD.get(p / 10, p % 10)) == 0) {
                     navigate.moves.add(p);
                 } else {
                     if (key ? id > 7 : id < 8) {
@@ -45,13 +44,6 @@ public final class Params {
                     } else {
                         if (p % 5 != 0) navigate.protect.put(p, id);
                     }
-                }
-                if (pid == 5) {
-                    if (--y > 0 && Game.BOARD.get(y, x) == 5) navigate.protect.put(y, 5);
-                    if (--y > 0 && Game.BOARD.get(y, x) == 5) navigate.protect.put(y, 5);
-                } else if (pid == 15) {
-                    if (++y < 11 && Game.BOARD.get(y, x) == 15) navigate.protect.put(y, 15);
-                    if (++y < 11 && Game.BOARD.get(y, x) == 15) navigate.protect.put(y, 15);
                 }
             }
         }
